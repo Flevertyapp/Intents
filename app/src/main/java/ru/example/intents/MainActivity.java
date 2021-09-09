@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputLayout;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Constants {
+
+    private EditText txtName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,14 +25,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         Button btnGreeting = findViewById(R.id.btnGreetings);
-        final EditText txtName = findViewById(R.id.textName);
+        //final EditText txtName = findViewById(R.id.textName);
+        txtName = findViewById(R.id.textName);
         final TextView txtGreetings = findViewById(R.id.textHello);
 
         btnGreeting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name =txtName.getText().toString();
-                String sayHello = getString(R.string.say_hello)+ name;
+                String name = txtName.getText().toString();
+                String sayHello = getString(R.string.say_hello) + name;
                 txtGreetings.setText(sayHello);
             }
         });
@@ -41,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //запуск второй активити через явный интент
                 Intent runSetting = new Intent(MainActivity.this, SettingsActivity.class);
+                //передача данных через интент
+                runSetting.putExtra(YOUR_NAME, txtName.getText().toString());
                 //старт активити, указанной в интенте
                 startActivity(runSetting);
             }
