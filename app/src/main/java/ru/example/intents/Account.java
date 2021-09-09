@@ -1,10 +1,55 @@
 package ru.example.intents;
 
-public class Account {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Account implements Parcelable {
     private String name;
     private String surName;
     private int age;
     private String email;
+
+    public Account(){
+    }
+
+    public Account(String name, String surName, int age, String email){
+        setName(name);
+        setSurName(surName);
+        setAge(age);
+        setEmail(email);
+    }
+
+    protected Account(Parcel in) {
+        name = in.readString();
+        surName = in.readString();
+        age = in.readInt();
+        email = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(surName);
+        dest.writeInt(age);
+        dest.writeString(email);
+    }
+
+    public static final Creator<Account> CREATOR = new Creator<Account>() {
+        @Override
+        public Account createFromParcel(Parcel in) {
+            return new Account(in);
+        }
+
+        @Override
+        public Account[] newArray(int size) {
+            return new Account[size];
+        }
+    };
 
     public String getName() {
         return name;
@@ -37,4 +82,5 @@ public class Account {
     public void setEmail(String email) {
         this.email = email;
     }
+
 }
