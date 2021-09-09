@@ -14,12 +14,14 @@ import com.google.android.material.textfield.TextInputLayout;
 public class MainActivity extends AppCompatActivity implements Constants {
 
     private EditText txtName;
+    private Account account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        account = new Account();
         initView();
     }
 
@@ -44,11 +46,17 @@ public class MainActivity extends AppCompatActivity implements Constants {
             public void onClick(View v) {
                 //запуск второй активити через явный интент
                 Intent runSetting = new Intent(MainActivity.this, SettingsActivity.class);
+                populateAccount();
                 //передача данных через интент
-                runSetting.putExtra(YOUR_NAME, txtName.getText().toString());
+                //runSetting.putExtra(YOUR_NAME, txtName.getText().toString());
+                runSetting.putExtra(YOUR_ACCOUNT, account);
                 //старт активити, указанной в интенте
                 startActivity(runSetting);
             }
         });
+    }
+
+    private void populateAccount() {
+        account.setName(txtName.getText().toString());
     }
 }
