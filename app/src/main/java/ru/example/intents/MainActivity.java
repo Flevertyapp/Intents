@@ -1,5 +1,6 @@
 package ru.example.intents;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -15,6 +16,7 @@ public class MainActivity extends AppCompatActivity implements Constants {
 
     private EditText txtName;
     private Account account;
+    private static final int REQUEST_CODE_SETTINGS_ACTIVITY = 99;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +53,26 @@ public class MainActivity extends AppCompatActivity implements Constants {
                 //runSetting.putExtra(YOUR_NAME, txtName.getText().toString());
                 runSetting.putExtra(YOUR_ACCOUNT, account);
                 //старт активити, указанной в интенте
-                startActivity(runSetting);
+
+                //startActivity(runSetting);
+                startActivityForResult(runSetting,REQUEST_CODE_SETTINGS_ACTIVITY);
             }
         });
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode!=REQUEST_CODE_SETTINGS_ACTIVITY) {
+            super.onActivityResult(requestCode, resultCode, data);
+            return;
+        }
+        if (resultCode==RESULT_OK){
+            account=data.getParcelableExtra(YOUR_ACCOUNT);
+            populateView();
+        }
+    }
+
+    private void populateView() {
+        txtName.setText(account.getName());
     }
 
     private void populateAccount() {
